@@ -1,0 +1,120 @@
+"'Deprecated -AddressFieldsetComp' As CanvasComponent":
+    Address: =address//AddressCollection//AddressCol//address
+    AddressFields: |-
+        =Table(
+            {
+                Input: "Building Name",
+                CharacterLength: 255,
+                Required: true,
+                IsVisible : true
+            }, 
+                {
+                Input: "Address Line 1",
+                CharacterLength: 255,
+                Required: true,
+                IsVisible : true
+            },
+                {
+                Input: "Address Line 2",
+                CharacterLength: 255,
+                Required: false,
+                IsVisible : true
+            },
+                {
+                Input: "Town / City",
+                CharacterLength: 255,
+                Required: true,
+                IsVisible : true
+            },
+                {
+                Input: "County",
+                CharacterLength: 255,
+                Required: true,
+                IsVisible : true
+            },
+                {
+                Input: "Postcode",
+                CharacterLength: 255,
+                Required: true,
+                IsVisible : true
+            },
+                {
+                Input: "Country",
+                CharacterLength: 255,
+                Required: false,
+                IsVisible : true
+            }
+        )
+    AddressIsUK: =true
+    AddressTitle: ="What is your address"
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =640
+    Width: =640
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    Container10 As groupContainer.manualLayoutContainer:
+        Height: =Parent.Height - (Label13.Y + Label13.Height + 10)
+        Width: =Parent.Width
+        Y: =Label13.Y + Label13.Height + 10
+        ZIndex: =1
+
+        Gallery1 As gallery.galleryVertical:
+            DelayItemLoading: =true
+            Height: =Parent.Height
+            Items: ='Deprecated -AddressFieldsetComp'.AddressFields
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: |-
+                =// Assuming your gallery's name is 'Gallery1', your textbox's name is 'Textbox1', and each item in the gallery has a property 'Name'
+                ForAll(Gallery1.AllItems, Collect(AddressCol, {ItemName: Label12.Text, InputValue: TextInput2.Text, UpdateTime : Now()})); 
+                
+                ClearCollect(
+                    AddressCollection,
+                    FirstN(
+                        Sort(
+                            AddressCol,
+                            UpdateTime,
+                            SortOrder.Descending
+                        ),
+                        CountRows(Gallery1.AllItems)
+                    )
+                );
+            TemplateSize: =If(Self.Layout = Layout.Horizontal, Min(Parent.Height/(CountRows(Self.AllItems) + 1), Self.Width - 60), Min(Parent.Height/(CountRows(Self.AllItems) + 1), Self.Height - 60))
+            Width: =Parent.Width
+            ZIndex: =1
+
+            TextInput2 As text:
+                Default: =
+                Height: =Parent.TemplateHeight / 2
+                OnChange: |-
+                    =// Set the OnChange property of each TextInput
+                    //ClearCollect(AddressCollection, {AddressLine1 : If(ThisItem.Input)})
+                    Collect(address, Self.Text)
+                OnSelect: =Select(Parent)
+                Size: =16
+                Width: =560
+                X: =40
+                Y: =Label12.Height + 5
+                ZIndex: =1
+
+            Label12 As label:
+                Height: =Parent.TemplateHeight / 2.5
+                PaddingLeft: =0
+                Size: =16
+                Text: =ThisItem.Input & $"{If(!ThisItem.Required, " (Optional)")}"
+                Width: =560
+                X: =40
+                ZIndex: =2
+
+    Label13 As label:
+        FontWeight: =FontWeight.Bold
+        Height: =50
+        Size: =21
+        Text: ='Deprecated -AddressFieldsetComp'.AddressTitle
+        Width: =560
+        X: =40
+        Y: =20
+        ZIndex: =2
+

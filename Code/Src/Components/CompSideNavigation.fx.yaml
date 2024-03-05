@@ -1,0 +1,857 @@
+CompSideNavigation As CanvasComponent:
+    ARClickFilter: =ARClickTimes
+    ButtonColor: =RGBA(0, 0, 0, 1)
+    ButtonFill: =RGBA(105, 121, 126, 1)
+    ClickRecord: =GHClickTimes
+    COIClickFilter: =COIClickTimes
+    Fill: =Color.White
+    FilterVal: =FilterVar
+    GHClickFilter: =GHClickTimes
+    Height: =718
+    MenuComponent1: |-
+        =Table(
+            {
+                MenuLabel: "Home",
+                SCreenNav: App.ActiveScreen,
+                MenuId: 1,
+                SubMenu: Table(
+                    {
+                        MenuLabel: "First SubmenuHome One",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 1,
+                        CompType: "Text",
+                        VisibleProp: Boolean(true)
+                    }
+                )
+            },
+            {
+                MenuLabel: "Home Two",
+                SCreenNav: App.ActiveScreen,
+                MenuId: 2,
+                SubMenu: Table(
+                    {
+                        MenuLabel: "First SubmenuHome One",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 1,
+                        CompType: "Text",
+                        VisibleProp: Boolean(true)
+                    },
+                    {
+                        MenuLabel: "First SubmenuHome Two",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 2,
+                        CompType: "Text",
+                        VisibleProp: Boolean(true)
+                    },
+                    {
+                        MenuLabel: "First SubmenuHome Three",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 3,
+                        CompType: "Text",
+                        VisibleProp: Boolean(false)
+                    },
+                    {
+                        MenuLabel: "First SubmenuHome Four",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 4,
+                        CompType: "Text",
+                        VisibleProp: Boolean(false)
+                    }
+                )
+            },
+            {
+                MenuLabel: "Home 3",
+                SCreenNav: App.ActiveScreen,
+                MenuId: 3,
+                SubMenu: Table(
+                    {
+                        MenuLabel: " Second SubmenuHome One",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 1,
+                        CompType: "Text",
+                        VisibleProp: Boolean(true)
+                    },
+                    {
+                        MenuLabel: " Second SubmenuHome Two",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 2,
+                        CompType: "Text",
+                        VisibleProp: Boolean(true)
+                    },
+                    {
+                        MenuLabel: " Second SubmenuHome Three",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 3,
+                         CompType: "Text",
+                        VisibleProp: Boolean(true)
+                    },
+                    {
+                        MenuLabel: " Second SubmenuHome Four",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 1,
+                       CompType: "Text",
+                        VisibleProp: Boolean(false)
+                    }
+                )
+            },
+            {
+                MenuLabel: "Home 4",
+                SCreenNav: App.ActiveScreen,
+                MenuId: 4,
+                SubMenu: Table(
+                    {
+                        MenuLabel: " Fourth SubmenuHome One",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 1,
+                         CompType: "Text",
+                        VisibleProp: Boolean(true)
+                    },
+                    {
+                        MenuLabel: " Fourth SubmenuHome Two",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 1,
+                         CompType: "Text",
+                        VisibleProp: Boolean(true)
+                    },
+                    {
+                        MenuLabel: " Fourth SubmenuHome Three",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 1,
+                        CompType: "Text",
+                        VisibleProp: Boolean(false)
+                    }
+                )
+            }
+        )
+    Width: =220
+    X: =0
+    Y: =0
+    ZIndex: =2
+
+    btnMaAR_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Color: =CompSideNavigation.ButtonColor
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =CompSideNavigation.ButtonFill
+        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+        Font: =Font.'Segoe UI'
+        Height: =If(Self.Visible, Parent.Height/18.95, 0)
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |
+            =Set(FilterVar, Index(Index(CompSideNavigation.MenuComponent1, 4).SubMenu, 3).CompType);
+            Collect(
+                ARClickTimes,
+                {}
+            );
+            Collect(
+                ARClickTimes,
+                {
+                    Time: Now(),
+                    Typ: Index(Index(CompSideNavigation.MenuComponent1, 4).SubMenu, 3).CompType
+                }
+            );
+            ClearCollect(
+                ARClickTimes,
+                FirstN(
+                    Sort(
+                        ARClickTimes,
+                        Time,
+                        SortOrder.Descending
+                    ),
+                    1
+                )
+            );
+            Navigate(Index(Index(CompSideNavigation.MenuComponent1, 4).SubMenu, 3).SCreenNav);
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: |-
+            =IfError(
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        4
+                    ).SubMenu,
+                    3
+                ).MenuLabel,
+                "No Val",
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        4
+                    ).SubMenu,
+                    3
+                ).MenuLabel
+            )
+        Visible: =If(Index(Index(CompSideNavigation.MenuComponent1, 4).SubMenu, 3).VisibleProp = true, true, false)
+        Width: =btnNRCOI_1.Width
+        X: =btnMrAR_1.X
+        Y: =btnMrAR_1.Y + btnMrAR_1.Height + 5
+        ZIndex: =1
+
+    btnMrAR_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Color: =CompSideNavigation.ButtonColor
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =CompSideNavigation.ButtonFill
+        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+        Font: =Font.'Segoe UI'
+        Height: =Parent.Height/18.95
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |
+            =Set(FilterVar, Index(Index(CompSideNavigation.MenuComponent1, 4).SubMenu, 2).CompType);
+            Collect(
+                ARClickTimes,
+                {}
+            );
+            Collect(
+                ARClickTimes,
+                {
+                    Time: Now(),
+                    Typ: Index(Index(CompSideNavigation.MenuComponent1, 4).SubMenu, 2).CompType
+                }
+            );
+            ClearCollect(
+                ARClickTimes,
+                FirstN(
+                    Sort(
+                        ARClickTimes,
+                        Time,
+                        SortOrder.Descending
+                    ),
+                    1
+                )
+            );
+            Navigate(Index(Index(CompSideNavigation.MenuComponent1, 4).SubMenu, 2).SCreenNav);
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: |-
+            =IfError(
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        4
+                    ).SubMenu,
+                    2
+                ).MenuLabel,
+                "No Val",
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        4
+                    ).SubMenu,
+                    2
+                ).MenuLabel
+            )
+        Width: =btnNRCOI_1.Width
+        X: =btnNRAR_1.X
+        Y: =btnNRAR_1.Y + btnNRAR_1.Height + 5
+        ZIndex: =2
+
+    btnNRAR_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Color: =CompSideNavigation.ButtonColor
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =CompSideNavigation.ButtonFill
+        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+        Font: =Font.'Segoe UI'
+        Height: =Parent.Height/18.95
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: =Navigate(Index(Index(CompSideNavigation.MenuComponent1, 4).SubMenu, 1).SCreenNav)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: |-
+            =IfError(
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        4
+                    ).SubMenu,
+                    1
+                ).MenuLabel,
+                "No Val",
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        4
+                    ).SubMenu,
+                    1
+                ).MenuLabel
+            )
+        Width: =lblParentHome.Width - (1.5 * Self.X)
+        X: =lblParentHome.X * 2
+        Y: =lblParentAr_1.Y + lblParentAr_1.Height + 10
+        ZIndex: =3
+
+    lblParentAr_1 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(73, 84, 88, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =Parent.Height / 18
+        Size: =11
+        Text: =Upper(Index(CompSideNavigation.MenuComponent1, 4).MenuLabel ) //Upper("Accident Register")
+        Width: =Parent.Width - Self.X*2
+        X: =2
+        Y: =btnARCOI_1.Y + btnARCOI_1.Height + 8
+        ZIndex: =4
+
+    btnARCOI_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Color: =CompSideNavigation.ButtonColor
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =CompSideNavigation.ButtonFill
+        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+        Font: =Font.'Segoe UI'
+        Height: =If(Self.Visible, Parent.Height/18.95, 0)
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |
+            =Set(FilterVar, Index(Index(CompSideNavigation.MenuComponent1, 3).SubMenu, 4).CompType);
+            Collect(
+                COIClickTimes,
+                {}
+            );
+            Collect(
+                COIClickTimes,
+                {
+                    Time: Now(),
+                    Typ: Index(Index(CompSideNavigation.MenuComponent1, 3).SubMenu, 4).CompType
+                }
+            );
+            ClearCollect(
+                COIClickTimes,
+                FirstN(
+                    Sort(
+                        COIClickTimes,
+                        Time,
+                        SortOrder.Descending
+                    ),
+                    1
+                )
+            );
+            Navigate(Index(Index(CompSideNavigation.MenuComponent1, 3).SubMenu, 4).SCreenNav);
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: |-
+            =IfError(
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        3
+                    ).SubMenu,
+                    4
+                ).MenuLabel,
+                "No Val",
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        3
+                    ).SubMenu,
+                    4
+                ).MenuLabel
+            )
+        Visible: =If(Index(Index(CompSideNavigation.MenuComponent1, 3).SubMenu, 4).VisibleProp = true, true, false)
+        Width: =btnNRCOI_1.Width
+        X: =btnMACOI_1.X
+        Y: =btnMACOI_1.Y + btnMACOI_1.Height + 5
+        ZIndex: =5
+
+    btnMACOI_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Color: =CompSideNavigation.ButtonColor
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =CompSideNavigation.ButtonFill
+        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+        Font: =Font.'Segoe UI'
+        Height: =If(Self.Visible, Parent.Height/18.95, 0)
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |
+            =Set(FilterVar, Index(Index(CompSideNavigation.MenuComponent1, 3).SubMenu, 3).CompType);
+            
+            Collect(
+                COIClickTimes,
+                {}
+            );
+            Collect(
+                COIClickTimes,
+                {
+                    Time: Now(),
+                    Typ: Index(Index(CompSideNavigation.MenuComponent1, 3).SubMenu, 3).CompType
+                }
+            );
+            ClearCollect(
+                COIClickTimes,
+                FirstN(
+                    Sort(
+                        COIClickTimes,
+                        Time,
+                        SortOrder.Descending
+                    ),
+                    1
+                )
+            );
+            Navigate(Index(Index(CompSideNavigation.MenuComponent1, 3).SubMenu, 3).SCreenNav);
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: |-
+            =IfError(
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        3
+                    ).SubMenu,
+                    3
+                ).MenuLabel,
+                "No Val",
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        3
+                    ).SubMenu,
+                    3
+                ).MenuLabel
+            )
+        Visible: =If(Index(Index(CompSideNavigation.MenuComponent1, 3).SubMenu, 3).VisibleProp = true, true, false)
+        Width: =btnNRCOI_1.Width
+        X: =btnMRCOI_1.X
+        Y: =btnMRCOI_1.Y + btnMRCOI_1.Height + 5
+        ZIndex: =6
+
+    btnMRCOI_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Color: =CompSideNavigation.ButtonColor
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =CompSideNavigation.ButtonFill
+        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+        Font: =Font.'Segoe UI'
+        Height: =Parent.Height/18.95
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |
+            =Set(FilterVar, Index(Index(CompSideNavigation.MenuComponent1, 3).SubMenu, 2).CompType);
+            Collect(
+               COIClickTimes,
+                {}
+            );
+            Collect(
+                COIClickTimes,
+                {
+                    Time: Now(),
+                    Typ: Index(Index(CompSideNavigation.MenuComponent1, 3).SubMenu, 2).CompType
+                }
+            );
+            ClearCollect(
+                COIClickTimes,
+                FirstN(
+                    Sort(
+                        COIClickTimes,
+                        Time,
+                        SortOrder.Descending
+                    ),
+                    1
+                )
+            );
+            Navigate(Index(Index(CompSideNavigation.MenuComponent1, 3).SubMenu, 2).SCreenNav);
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: |-
+            =IfError(
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        3
+                    ).SubMenu,
+                    2
+                ).MenuLabel,
+                "No Val",
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        3
+                    ).SubMenu,
+                    2
+                ).MenuLabel
+            )
+        Width: =btnNRCOI_1.Width
+        X: =btnNRCOI_1.X
+        Y: =btnNRCOI_1.Y + btnNRCOI_1.Height + 5
+        ZIndex: =7
+
+    btnNRCOI_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Color: =CompSideNavigation.ButtonColor
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =CompSideNavigation.ButtonFill
+        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+        Font: =Font.'Segoe UI'
+        Height: =Parent.Height/18.95
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: =Navigate(Index(Index(CompSideNavigation.MenuComponent1, 3).SubMenu, 1).SCreenNav)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: |-
+            =IfError(
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        3
+                    ).SubMenu,
+                    1
+                ).MenuLabel,
+                "No Val",
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        3
+                    ).SubMenu,
+                    1
+                ).MenuLabel
+            )
+        Width: =lblParentHome.Width - (1.5 * Self.X)
+        X: =lblParentHome.X * 2
+        Y: =lblParentCOI_1.Y + lblParentCOI_1.Height + 10
+        ZIndex: =8
+
+    lblParentCOI_1 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(73, 84, 88, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =Parent.Height / 18
+        Size: =11
+        Text: =Upper(Index(CompSideNavigation.MenuComponent1, 3).MenuLabel ) //"CONFLICT OF INTEREST"
+        Width: =Parent.Width - Self.X*2
+        X: =2
+        Y: =btnARGH_1.Y + btnARGH_1.Height + 8
+        ZIndex: =9
+
+    btnARGH_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Color: =CompSideNavigation.ButtonColor
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =CompSideNavigation.ButtonFill
+        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+        Font: =Font.'Segoe UI'
+        Height: =If(Self.Visible, Parent.Height/17.95, 0)
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |-
+            =
+            Set(FilterVar, Index(Index(CompSideNavigation.MenuComponent1, 2).SubMenu, 4).CompType);
+            Collect(
+                GHClickTimes,
+                {}
+            );
+            Collect(
+                GHClickTimes,
+                {
+                    Time: Now(),
+                    Typ: Index(Index(CompSideNavigation.MenuComponent1, 2).SubMenu, 4).CompType
+                }
+            );
+            ClearCollect(
+                GHClickTimes,
+                FirstN(
+                    Sort(
+                        GHClickTimes,
+                        Time,
+                        SortOrder.Descending
+                    ),
+                    1
+                )
+            );
+            Navigate(Index(Index(CompSideNavigation.MenuComponent1, 2).SubMenu, 4).SCreenNav)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: |-
+            =IfError(
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        2
+                    ).SubMenu,
+                    4
+                ).MenuLabel,
+                "No Val",
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        2
+                    ).SubMenu,
+                    4
+                ).MenuLabel
+            )
+        Visible: =If(Index(Index(CompSideNavigation.MenuComponent1, 2).SubMenu, 4).VisibleProp = true, true, false)
+        Width: =btnMAGH_1.Width
+        X: =btnMAGH_1.X
+        Y: =btnMAGH_1.Y + btnMAGH_1.Height + 5
+        ZIndex: =10
+
+    btnMAGH_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Color: =CompSideNavigation.ButtonColor
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =CompSideNavigation.ButtonFill
+        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+        Font: =Font.'Segoe UI'
+        Height: =If(Self.Visible, Parent.Height/18.95, 0)
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |
+            =Set(FilterVar, Index(Index(CompSideNavigation.MenuComponent1, 2).SubMenu, 3).CompType);
+            Collect(
+                GHClickTimes,
+                {}
+            );
+            Collect(
+                GHClickTimes,
+                {
+                    Time: Now(),
+                    Typ: Index(Index(CompSideNavigation.MenuComponent1, 2).SubMenu, 3).CompType
+                }
+            );
+            ClearCollect(
+                GHClickTimes,
+                FirstN(
+                    Sort(
+                        GHClickTimes,
+                        Time,
+                        SortOrder.Descending
+                    ),
+                    1
+                )
+            );
+            Navigate(Index(Index(CompSideNavigation.MenuComponent1, 2).SubMenu, 3).SCreenNav)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: |-
+            =IfError(
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        2
+                    ).SubMenu,
+                    3
+                ).MenuLabel,
+                "No Val",
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        2
+                    ).SubMenu,
+                    3
+                ).MenuLabel
+            )
+        Visible: =If(Index(Index(CompSideNavigation.MenuComponent1, 2).SubMenu, 3).VisibleProp = true, true, false)
+        Width: =btnMRGH_1.Width
+        X: =btnMRGH_1.X
+        Y: =btnMRGH_1.Y + btnMRGH_1.Height + 5
+        ZIndex: =11
+
+    btnMRGH_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Color: =CompSideNavigation.ButtonColor
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =CompSideNavigation.ButtonFill
+        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+        Font: =Font.'Segoe UI'
+        Height: =Parent.Height / 18.95
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |-
+            =Set(FilterVar,Index(Index(CompSideNavigation.MenuComponent1,2).SubMenu,2).CompType);
+            Collect(
+                GHClickTimes,
+                {}
+            );
+            Collect(
+                GHClickTimes,
+                {
+                    Time: Now(),
+                    Typ: Index(Index(CompSideNavigation.MenuComponent1, 2).SubMenu, 2).CompType
+                }
+            );
+            ClearCollect(
+                GHClickTimes,
+                FirstN(
+                    Sort(
+                        GHClickTimes,
+                        Time,
+                        SortOrder.Descending
+                    ),
+                    1
+                )
+            );
+            
+            Navigate(Index(Index(CompSideNavigation.MenuComponent1,2).SubMenu,2).SCreenNav)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: |-
+            =IfError(
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        2
+                    ).SubMenu,
+                    2
+                ).MenuLabel,
+                "No Val",
+                Index(
+                    Index(
+                        CompSideNavigation.MenuComponent1,
+                        2
+                    ).SubMenu,
+                    2
+                ).MenuLabel
+            )
+        Width: =btnNRGH_1.Width
+        X: =btnNRGH_1.X
+        Y: =btnNRGH_1.Y + btnNRGH_1.Height + 5
+        ZIndex: =12
+
+    btnNRGH_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        Color: =CompSideNavigation.ButtonColor
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =CompSideNavigation.ButtonFill
+        FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+        Font: =Font.'Segoe UI'
+        Height: =Parent.Height / 18.95
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: =Navigate(Index(Index(CompSideNavigation.MenuComponent1, 2).SubMenu, 1).SCreenNav)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: =Index(Index(CompSideNavigation.MenuComponent1, 2).SubMenu, 1).MenuLabel 
+        Width: =lblParentHome.Width - (1.5 * Self.X)
+        X: =lblParentHome.X * 2
+        Y: =lblParentGH_1.Y + lblParentGH_1.Height + 10
+        ZIndex: =13
+
+    lblParentGH_1 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(73, 84, 88, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =Parent.Height / 18
+        Size: =11
+        Text: =Upper(Index(CompSideNavigation.MenuComponent1, 2).MenuLabel ) //Upper("Gifts and Hospitality")
+        Width: =Parent.Width - Self.X*2
+        X: =2
+        Y: =lblParentHome.Y + lblParentHome.Height + 8
+        ZIndex: =14
+
+    lblParentHome As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =CompSideNavigation.ButtonColor
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        Fill: =CompSideNavigation.ButtonFill
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =Parent.Height / 18
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |
+            =Navigate(
+                Index(
+                    CompSideNavigation.MenuComponent1,
+                    1
+                ).SCreenNav
+            );
+        Size: =12
+        Text: =Upper(Index(CompSideNavigation.MenuComponent1, 1).MenuLabel )  //Upper("Home") 
+        Width: =Parent.Width - Self.X*2
+        X: =2
+        Y: =5
+        ZIndex: =15
+

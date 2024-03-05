@@ -1,0 +1,253 @@
+CompSideNav As CanvasComponent:
+    BgColor: =Color.White
+    ButtonFill: =Color.DimGrey
+    Check: =ClickTimes
+    CheckCompleteLoad: = If(CountRows(MenuGal2.AllItems) = CountRows(CompSideNav.MenuItems), false, true)
+    ClickRecords: |-
+        =Table({RecordValue: "MA", Time : DateValue("01/ 01/ 01")})
+    Fill: =Color.White
+    Height: =718
+    LoaderColor: =Color.WhiteSmoke
+    MenuItems: |-
+        =Table(
+            {
+                MenuLabel: "Home",
+                SCreenNav: App.ActiveScreen,
+                MenuId: 1, 
+                SubMenu: Table({
+                        MenuLabel: "First SubmenuHome One",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 1, 
+                        selectedRecordType: "Text",
+                        VisibleProp : Boolean(true)
+                    })
+            },
+            {
+                MenuLabel: "Home Two",
+                SCreenNav: App.ActiveScreen,
+                MenuId: 2,
+                SubMenu: Table(
+                    {
+                        MenuLabel: "First SubmenuHome One",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 1, 
+                        selectedRecordType: "Text",
+                        VisibleProp : Boolean(true)
+                    },
+                    {
+                        MenuLabel: "First SubmenuHome Two",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 1, 
+                        selectedRecordType: "Text",
+                        VisibleProp : Boolean(false)
+                    }
+                )
+            },
+            {
+                MenuLabel: "Home 3",
+                SCreenNav: App.ActiveScreen,
+                MenuId: 3,
+                SubMenu: Table(
+                    {
+                        MenuLabel: " Second SubmenuHome One",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 1, 
+                        selectedRecordType: "Text",
+                        VisibleProp : Boolean(true)
+                    }
+                )
+            },
+        
+             {
+                MenuLabel: "Home 4",
+                SCreenNav: App.ActiveScreen,
+                MenuId: 4,
+                SubMenu: Table(
+                    {
+                        MenuLabel: " Fourth SubmenuHome One",
+                        SCreenNav: App.ActiveScreen,
+                        MenuId: 1, 
+                        selectedRecordType: "Text",
+                        VisibleProp : Boolean(true)
+                    }
+                )
+            }
+        )
+    RecordType: =RecordTypes //MenuGal2_1.Selected.Label8_1.Text
+    textColor: =Color.Black
+    VisibleCheck: =Clicked
+    Width: =320
+    X: =0
+    Y: =0
+    ZIndex: =5
+
+    MenuGal2 As gallery.variableTemplateHeightGallery:
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DelayItemLoading: =false//true
+        Fill: =CompSideNav.BgColor
+        Height: =Parent.Height
+        Items: =CompSideNav.MenuItems
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.None //LoadingSpinner.Data
+        LoadingSpinnerColor: =CompSideNav.LoaderColor
+        ShowScrollbar: =false
+        TemplateSize: =200
+        Transition: =Transition.Pop
+        Width: =Parent.Width
+        Y: =Parent.Y
+        ZIndex: =1
+
+        Label8_3 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =CompSideNav.textColor
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            OnSelect: =Select(Parent)
+            Size: =12
+            Text: =ThisItem.MenuLabel 
+            Width: =Parent.Width
+            ZIndex: =1
+
+        Button15 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =RGBA(230, 230, 230, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =Color.Transparent
+            DisabledFill: =Color.Transparent
+            DisplayMode: =If(ThisItem.SCreenNav.Name = "AppSelection", DisplayMode.Edit, DisplayMode.Disabled)
+            Fill: =Color.Transparent
+            FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+            Font: =Font.'Segoe UI'
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =Self.Fill
+            OnSelect: |+
+                =Navigate(ThisItem.SCreenNav) && If(ThisItem.SCreenNav.Size<3,Set(expandNav,false));
+                
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: =""
+            Width: =Parent.TemplateWidth
+            Y: =5
+            ZIndex: =2
+
+        Submenu As gallery.variableTemplateHeightGallery:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DelayItemLoading: =false//true
+            Height: =CountRows(Filter(ThisItem.SubMenu, VisibleProp = true)) * 50
+            Items: =Filter(ThisItem.SubMenu, VisibleProp = true)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.None//LoadingSpinner.Data
+            LoadingSpinnerColor: =CompSideNav.LoaderColor
+            TemplatePadding: =2
+            TemplateSize: =CountRows(Filter(ThisItem.SubMenu, VisibleProp = true)) * 50
+            Transition: =Transition.Pop
+            Width: =Parent.Width
+            Y: =Parent.Y + 30
+            ZIndex: =5
+
+            Label8_4 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =CompSideNav.textColor
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                Height: =If(ThisItem.VisibleProp, 40, 0)
+                HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+                OnSelect: =Select(Parent)
+                Size: =11
+                Text: =ThisItem.MenuLabel
+                Visible: =false//ThisItem.VisibleProp = true
+                Width: =Parent.Width - (2 *Self.X )
+                X: =20
+                ZIndex: =1
+
+            Button15_1 As button:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                Color: =CompSideNav.textColor
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                Fill: =CompSideNav.ButtonFill
+                FocusedBorderColor: =ColorFade(Self.Fill, -75%)
+                Font: =Font.'Segoe UI'
+                Height: =If(ThisItem.VisibleProp, 40, 0)
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverFill: =Color.Gray
+                OnSelect: |
+                    =/*
+                    If(
+                        !ThisItem.SCreenNav.Name,
+                        Navigate(ThisItem.SCreenNav) && If (ThisItem.selectedRecordType <> "NR", Set(
+                        myVal,
+                        ThisItem.selectedRecordType)
+                    ),
+                        If (ThisItem.selectedRecordType <> "NR", Set(
+                        myVal,
+                        ThisItem.selectedRecordType)
+                    )
+                    ) If (ThisItem.selectedRecordType <> "NR", 
+                        Set(myVal, ThisItem.selectedRecordType)
+                    );*/
+                    If (
+                        ThisItem.selectedRecordType <> "NR",
+                        Set(
+                            RecordTypes,
+                            ThisItem.selectedRecordType
+                        )
+                    );
+                    If(
+                        !ThisItem.SCreenNav.Name,
+                        Navigate(ThisItem.SCreenNav)
+                    );
+                    Reset(Parent);
+                    // Initialize the collection
+                    Collect(
+                        ClickTimes,
+                        {}
+                    );
+                    Collect(
+                        ClickTimes,
+                        {
+                            Time: Now(),
+                            Typ: RecordTypes
+                        }
+                    );
+                    ClearCollect(
+                        ClickTimes,
+                        FirstN(
+                            Sort(
+                                ClickTimes,
+                                Time,
+                                SortOrder.Descending
+                            ),
+                            1
+                        )
+                    );
+                    // Pass a value if Item is selected 
+                    If(ThisItem.IsSelected,
+                    Set(Clicked, ThisItem.IsSelected));
+                    Set(Clicked, false)
+                PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+                PressedColor: =Color.Gray
+                PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =12
+                Text: =ThisItem.MenuLabel
+                Visible: =ThisItem.VisibleProp = true
+                Width: =Parent.Width
+                ZIndex: =2
+

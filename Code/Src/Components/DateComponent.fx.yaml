@@ -1,0 +1,291 @@
+DateComponent As CanvasComponent:
+    ControlFormat: =true
+    DateErrorText: ="Text"
+    DateInputformat: ="For example 31 01 1990"
+    DateIsInvalid: =false
+    DateTitle: ="date of birth"
+    DateValOut: =Date(YearVal, MonthVal, DateVal)
+    ErrorMessageOutput: |+
+        =Label11.Text //ErrorMessage
+        	
+           
+        
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =300
+    IsInPast: =false
+    ShowDateTitle: =true
+    ShowInputFormat: =true
+    Width: =640
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    Container15 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.None
+        Height: =Container7.Height + Container8.Height + 20
+        Width: =Parent.Width - Self.X
+        X: =20
+        ZIndex: =5
+
+        Container8 As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            Height: =Container9.Y + Container9.Height //Parent.Height - Self.Y
+            Width: =Parent.Width - Self.X
+            X: =If(Label11.Visible, 10, 0)
+            Y: =Container7.Height + Container7.Y
+            ZIndex: =1
+
+            Container9_2 As groupContainer.manualLayoutContainer:
+                DropShadow: =DropShadow.None
+                Height: =Container9.Height
+                Width: =120
+                X: =Container9_1.X + Container9_1.Width + 10
+                Y: =Label11.Y + Label11.Height + 10 
+                ZIndex: =1
+
+                TextInputYear As text:
+                    BorderColor: |
+                        =If( (IsNumeric(TextInputYear.Text) && Value( TextInputYear.Text) >= 1800 && Value( TextInputYear.Text) < 2099 ), Color.Black, Color.Red)
+                    Default: =""
+                    Format: =If(DateComponent.ControlFormat, TextFormat.Number)
+                    MaxLength: =4
+                    OnChange: |-
+                        =If((IsNumeric(Self.Text)&&Value(Self.Text)> 1800 &&Value(Self.Text)<2099),Set(YearVal,Self.Text),Set(YearVal,Blank()));
+                        
+                        If(
+                            IsBlank(TextInputDay.Text)&&IsBlank(TextInputMonth.Text)&&IsBlank(TextInputYear.Text),
+                                Set(ErrorMessage,$"Enter your {DateComponent.DateTitle}"),
+                        
+                            //Day Error Messages
+                            IsBlank(TextInputDay.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a day"),
+                            (IsNumeric(TextInputDay.Text)&&Value(TextInputDay.Text)<1)||(IsNumeric(TextInputDay.Text)&&Value(TextInputDay.Text)>31),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a valid day"),
+                            !IsNumeric(TextInputDay.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be a valid day"),
+                            
+                            //Month error messages
+                            IsBlank(TextInputMonth.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a month"),
+                            (IsNumeric(TextInputMonth.Text)&&Value(TextInputMonth.Text)<1)||(IsNumeric(TextInputMonth.Text)&&Value(TextInputMonth.Text)>12),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a valid month"),
+                            !IsNumeric(TextInputMonth.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be a valid month"),
+                            
+                            //Year error message
+                            IsBlank(TextInputYear.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a year"),
+                            (IsNumeric(TextInputYear.Text) && Value(TextInputYear.Text)< 1800) || (IsNumeric(TextInputYear.Text) && Value(TextInputYear.Text)>2099),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be a valid year"),
+                            !IsNumeric(TextInputDay.Text)||!IsNumeric(TextInputMonth.Text)||!IsNumeric(TextInputYear.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be a real date"),
+                            Value(TextInputDay.Text)<1||Value(TextInputDay.Text)>31||Value(TextInputMonth.Text)<1||Value(TextInputMonth.Text)>12||Len(TextInputYear.Text)<>4,
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a day, month and year"),
+                            DateValue(TextInputDay.Text&"/"&TextInputMonth.Text&"/"&TextInputYear.Text)>Today(),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be in the past"),
+                        
+                            // Add more conditions here as per your requirements
+                            true ,
+                                Set(ErrorMessage,Blank())
+                            )
+                    Size: =16
+                    TabIndex: =8
+                    Width: =100
+                    X: =5
+                    Y: =Label8_2.Y + Label8_2.Height + 10
+                    ZIndex: =1
+
+                Label8_2 As label:
+                    Size: =16
+                    TabIndex: =7
+                    Text: ="Year"
+                    Width: =560
+                    X: =5
+                    ZIndex: =2
+
+            Container9_1 As groupContainer.manualLayoutContainer:
+                DropShadow: =DropShadow.None
+                Height: =Container9.Height
+                Width: =120
+                X: =Container9.X + Container9.Width + 10
+                Y: =Label11.Y + Label11.Height + 10 
+                ZIndex: =2
+
+                TextInputMonth As text:
+                    BorderColor: =If( (IsNumeric(TextInputMonth.Text) && Value( TextInputMonth.Text) > 0 && Value( TextInputMonth.Text) < 13), Color.Black, Color.Red)
+                    Default: =""
+                    Format: =If(DateComponent.ControlFormat, TextFormat.Number)
+                    OnChange: |-
+                        =If( 
+                            (IsNumeric(Self.Text) && Value( Self.Text) > 1 && Value( Self.Text) < 13), Set(MonthVal, Self.Text ), Set(MonthVal, Blank()));
+                        
+                        If(
+                            IsBlank(TextInputDay.Text)&&IsBlank(TextInputMonth.Text)&&IsBlank(TextInputYear.Text),
+                                Set(ErrorMessage,$"Enter your {DateComponent.DateTitle}"),
+                        
+                            //Day Error Messages
+                            IsBlank(TextInputDay.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a day"),
+                            (IsNumeric(TextInputDay.Text)&&Value(TextInputDay.Text)<1)||(IsNumeric(TextInputDay.Text)&&Value(TextInputDay.Text)>31),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a valid day"),
+                            !IsNumeric(TextInputDay.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be a valid day"),
+                            
+                            //Month error messages
+                            IsBlank(TextInputMonth.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a month"),
+                            (IsNumeric(TextInputMonth.Text)&&Value(TextInputMonth.Text)<1)||(IsNumeric(TextInputMonth.Text)&&Value(TextInputMonth.Text)>12),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a valid month"),
+                            !IsNumeric(TextInputMonth.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be a valid month"),
+                            
+                            //Year error message
+                            IsBlank(TextInputYear.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a year"),
+                            (IsNumeric(TextInputYear.Text) && Value(TextInputYear.Text)<1800) || (IsNumeric(TextInputYear.Text) && Value(TextInputYear.Text)>2099),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be a valid year"),
+                            !IsNumeric(TextInputDay.Text)||!IsNumeric(TextInputMonth.Text)||!IsNumeric(TextInputYear.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be a real date"),
+                            Value(TextInputDay.Text)<1||Value(TextInputDay.Text)>31||Value(TextInputMonth.Text)<1||Value(TextInputMonth.Text)>12||Len(TextInputYear.Text)<>4,
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a day, month and year"),
+                            DateValue(TextInputDay.Text&"/"&TextInputMonth.Text&"/"&TextInputYear.Text)>Today(),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be in the past"),
+                        
+                            // Add more conditions here as per your requirements
+                            true ,
+                                Set(ErrorMessage,Blank())
+                            )
+                    Size: =16
+                    TabIndex: =6
+                    Width: =60
+                    X: =5
+                    Y: =Label8_1.Y + Label8_1.Height + 10
+                    ZIndex: =1
+
+                Label8_1 As label:
+                    Size: =16
+                    TabIndex: =5
+                    Text: ="Month"
+                    Width: =560
+                    X: =5
+                    ZIndex: =2
+
+            Container9 As groupContainer.manualLayoutContainer:
+                DropShadow: =DropShadow.None
+                Height: =Label8.Height + Label8.Y+ TextInputDay.Height + 20
+                Width: =120
+                X: =10
+                Y: =Label11.Y + Label11.Height + 10 
+                ZIndex: =3
+
+                TextInputDay As text:
+                    BorderColor: =If( (IsNumeric(TextInputDay.Text) && Value( TextInputDay.Text) > 0 && Value( TextInputDay.Text) < 32), Color.Black, Color.Red)
+                    Default: ="35"
+                    Format: =If(DateComponent.ControlFormat, TextFormat.Number)
+                    MaxLength: =2
+                    OnChange: |-
+                        =If( 
+                            (IsNumeric(TextInputDay.Text) && Value( TextInputDay.Text) > 0 && Value( TextInputDay.Text) < 32), Set(DateVal, TextInputDay.Text), Set(DayVal, Blank()));
+                        
+                        If(
+                            IsBlank(TextInputDay.Text)&&IsBlank(TextInputMonth.Text)&&IsBlank(TextInputYear.Text),
+                                Set(ErrorMessage,$"Enter your {DateComponent.DateTitle}"),
+                        
+                            //Day Error Messages
+                            IsBlank(TextInputDay.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a day"),
+                            (IsNumeric(TextInputDay.Text)&&Value(TextInputDay.Text)<1)||(IsNumeric(TextInputDay.Text)&&Value(TextInputDay.Text)>31),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a valid day"),
+                            !IsNumeric(TextInputDay.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be a valid day"),
+                            
+                            //Month error messages
+                            IsBlank(TextInputMonth.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a month"),
+                            (IsNumeric(TextInputMonth.Text)&&Value(TextInputMonth.Text)<1)||(IsNumeric(TextInputMonth.Text)&&Value(TextInputMonth.Text)>12),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a valid month"),
+                            !IsNumeric(TextInputMonth.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be a valid month"),
+                            
+                            //Year error message
+                            IsBlank(TextInputYear.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a year"),
+                            (IsNumeric(TextInputYear.Text) && Value(TextInputYear.Text)<1800) || (IsNumeric(TextInputYear.Text) && Value(TextInputYear.Text)>2099),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be a valid year"),
+                            !IsNumeric(TextInputDay.Text)||!IsNumeric(TextInputMonth.Text)||!IsNumeric(TextInputYear.Text),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be a real date"),
+                            Value(TextInputDay.Text)<1||Value(TextInputDay.Text)>31||Value(TextInputMonth.Text)<1||Value(TextInputMonth.Text)>12||Len(TextInputYear.Text)<>4,
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must include a day, month and year"),
+                            DateValue(TextInputDay.Text&"/"&TextInputMonth.Text&"/"&TextInputYear.Text)>Today(),
+                                Set(ErrorMessage,$"{DateComponent.DateTitle} must be in the past"),
+                        
+                            // Add more conditions here as per your requirements
+                            true ,
+                                Set(ErrorMessage,Blank())
+                            )
+                    OnSelect: =
+                    Size: =16
+                    TabIndex: =4
+                    Width: =60
+                    X: =5
+                    Y: =Label8.Y + Label8.Height + 10
+                    ZIndex: =1
+
+                Label8 As label:
+                    Size: =16
+                    TabIndex: =3
+                    Text: ="Day"
+                    Width: =560
+                    X: =5
+                    ZIndex: =2
+
+            Label11 As label:
+                Color: =RGBA(255, 0, 0, 1)
+                FontWeight: =FontWeight.Semibold
+                Height: =If(Self.Visible, 40, 0)
+                Size: =16
+                TabIndex: =2
+                Text: =ErrorMessage //DateComponent.DateErrorText
+                Visible: |+
+                    =!IsBlank(ErrorMessage) //!(IsNumeric(TextInputDay.Text) && Value( TextInputDay.Text) > 0 && Value( TextInputDay.Text) < 32) || !(IsNumeric(TextInputMonth.Text) && Value( TextInputMonth.Text) > 0 && Value( TextInputMonth.Text) < 13) || !(IsNumeric(TextInputYear.Text) && Value( TextInputYear.Text) > 1800 && Value( TextInputYear.Text) < 2099 )
+                    
+                Width: =560
+                X: =10
+                ZIndex: =4
+
+        Container7 As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            Height: =Label6.Y + Label7.Height + Label6.Height + 10
+            Width: =Parent.Width - Self.X
+            X: =If(Label11.Visible, 10, 0)
+            Y: =20
+            ZIndex: =2
+
+            Label7 As label:
+                Size: =14
+                TabIndex: =1
+                Text: =DateComponent.DateInputformat
+                Visible: =DateComponent.ShowInputFormat
+                Width: =Parent.Width - 2 * Self.X
+                X: =10
+                Y: =Label6.Height + Label6.Y
+                ZIndex: =1
+
+            Label6 As label:
+                FontWeight: =FontWeight.Bold
+                Size: =21
+                TabIndex: =0
+                Text: =$"What is your {DateComponent.DateTitle}?"
+                Visible: =DateComponent.ShowDateTitle
+                Width: =Parent.Width - 2 * Self.X
+                X: =10
+                ZIndex: =2
+
+        Rectangle2 As rectangle:
+            Fill: =RGBA(255, 0, 0, 1)
+            Height: =Container7.Height + Container8.Height - 10
+            Visible: =Label11.Visible
+            Width: =5
+            Y: =20
+            ZIndex: =3
+

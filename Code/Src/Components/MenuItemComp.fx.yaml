@@ -1,0 +1,109 @@
+MenuItemComp As CanvasComponent:
+    AnotherOne: ="Text"
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =600
+    ItemArrowCol: =RGBA(0, 0, 0, 1)
+    ItemLineCol: =RGBA(0, 0, 0, 1)
+    Items: |-
+        =Table(
+            {
+                ServiceName: "SampleText",
+                ServiceLink: App.ActiveScreen,
+                Tooltip: "Value",
+                AciveLink: true
+            }, 
+              {
+                ServiceName: "SampleText 2",
+                ServiceLink: App.ActiveScreen,
+                Tooltip: "Value",
+                AciveLink: true
+            }, 
+              {
+                ServiceName: "SampleText 3",
+                ServiceLink: App.ActiveScreen,
+                Tooltip: "Value",
+                AciveLink: true
+            }
+        )
+    ItemsBgCol: =Color.White
+    ItemsIsMobile: =false
+    ItemsTitleText: ="Text"
+    ItemTextCol: =RGBA(0, 0, 0, 1)
+    ItemTitleTextCol: =RGBA(0, 0, 0, 1)
+    ShowItemArrow: =true
+    ShowItemLine: =true
+    ShowItemTitle: =true
+    Width: =900
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    Container1 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.None
+        Fill: =MenuItemComp.ItemsBgCol
+        Height: =Parent.Height
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Width: =Parent.Width
+        ZIndex: =1
+
+        Gallery3 As gallery.galleryVertical:
+            AccessibleLabel: ="Items"
+            DelayItemLoading: =true
+            Height: =Parent.Height - (Label4.Height + Label4.Y + 10) - 20
+            Items: =MenuItemComp.Items
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplateSize: =60//If(Self.Layout = Layout.Horizontal, Min(150, Self.Width - 60), Min(150, Self.Height - 60))
+            Width: =Label4.Width
+            WrapCount: =If(MenuItemComp.ItemsIsMobile, 1,3)
+            X: =Label4.X
+            Y: =Label4.Height + 10
+            ZIndex: =1
+
+            Label5 As label:
+                Color: =MenuItemComp.ItemTextCol
+                Height: =If(MenuItemComp.ItemsIsMobile, Parent.TemplateHeight, 40)
+                OnSelect: =Select(Parent)
+                Size: =14
+                Text: =ThisItem.ServiceName
+                Tooltip: =ThisItem.Tooltip
+                Underline: =true
+                Width: =Parent.TemplateWidth - Icon3_1.X - Icon3_1.Width -Arrow1.Width-10
+                X: =If(MenuItemComp.ItemsIsMobile, Icon3_1.Width+ 10, Icon3_1.Width + 2)
+                Y: =Parent.TemplateHeight/2 - Self.Height/2
+                ZIndex: =1
+
+            Icon3_1 As icon.VerticalLine:
+                Color: =MenuItemComp.ItemLineCol
+                Height: =30
+                Icon: =Icon.VerticalLine
+                Visible: =MenuItemComp.ShowItemLine
+                Width: =10
+                Y: =Parent.TemplateHeight /2 - Self.Height/2
+                ZIndex: =2
+
+            Arrow1 As arrow:
+                Fill: =MenuItemComp.ItemArrowCol
+                Height: =Icon3_1.Height
+                OnSelect: =Select(Parent)
+                Visible: =MenuItemComp.ShowItemArrow
+                Width: =30
+                X: =If(MenuItemComp.ItemsIsMobile,  Parent.TemplateWidth - Self.Width - 15,  Parent.TemplateWidth - Self.Width - 5)
+                Y: =Icon3_1.Y
+                ZIndex: =3
+
+        Label4 As label:
+            Color: =MenuItemComp.ItemTitleTextCol
+            FontWeight: =FontWeight.Bold
+            Height: =70
+            Size: =21
+            Text: =MenuItemComp.ItemsTitleText
+            Visible: =MenuItemComp.ShowItemTitle
+            Width: =Parent.Width - 2 *Self.X
+            X: =If(MenuItemComp.ItemsIsMobile, 20,  50)
+            Y: =10
+            ZIndex: =2
+

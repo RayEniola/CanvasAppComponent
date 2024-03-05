@@ -1,0 +1,163 @@
+"'Deprecated - AddressComp' As CanvasComponent":
+    FieldsetQuestion: ="What is your Address"
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =640
+    Width: =640
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    txtPostCode As text:
+        BorderColor: =txtAddBuildingName.BorderColor
+        BorderThickness: =txtAddBuildingName.BorderThickness
+        Default: =""
+        Height: =txtAddBuildingName.Height
+        Size: =txtAddBuildingName.Size
+        Width: =txtAddBuildingName.Width
+        X: =txtAddBuildingName.X
+        Y: =lblPostCode.Y + lblPostCode.Height + 5
+        ZIndex: =1
+
+    lblPostCode As label:
+        Height: =txtAddBuildingName.Height
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =lblAddBuildingName.Size
+        Text: ="Postcode"
+        Width: =txtAddBuildingName.Width
+        X: =txtAddBuildingName.X
+        Y: =txtCounty.Y + txtCounty.Height + 10
+        ZIndex: =2
+
+    txtCounty As text:
+        BorderColor: =txtAddBuildingName.BorderColor
+        BorderThickness: =txtAddBuildingName.BorderThickness
+        Default: =""
+        Height: =txtAddBuildingName.Height
+        Size: =txtAddBuildingName.Size
+        Width: =txtAddBuildingName.Width
+        X: =txtAddBuildingName.X
+        Y: =lblCounty.Y + lblCounty.Height + 5
+        ZIndex: =3
+
+    lblCounty As label:
+        Height: =lblAddBuildingName.Height
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =lblAddBuildingName.Size
+        Text: ="County"
+        Width: =lblAddBuildingName.Width
+        X: =lblAddBuildingName.X
+        Y: =txtAddTown.Y + txtAddTown.Height + 10
+        ZIndex: =4
+
+    txtAddTown As text:
+        BorderColor: =txtAddBuildingName.BorderColor
+        BorderThickness: =txtAddBuildingName.BorderThickness
+        Default: =""
+        Height: =txtAddBuildingName.Height
+        Size: =txtAddBuildingName.Size
+        Width: =txtAddBuildingName.Width
+        X: =txtAddBuildingName.X
+        Y: =lblAddTown.Y + lblAddTown.Height + 5
+        ZIndex: =5
+
+    lblAddTown As label:
+        Height: =lblAddBuildingName.Height
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =lblAddBuildingName.Size
+        Text: ="Town or City "
+        Width: =lblAddBuildingName.Width
+        X: =lblAddBuildingName.X
+        Y: =txtAddLine2.Y+ txtAddLine2.Height + 12
+        ZIndex: =6
+
+    txtAddLine2 As text:
+        BorderColor: =txtAddBuildingName.BorderColor
+        BorderThickness: =txtAddBuildingName.BorderThickness
+        Default: =""
+        Height: =txtAddBuildingName.Height
+        Size: =txtAddBuildingName.Size
+        Width: =txtAddBuildingName.Width
+        X: =txtAddBuildingName.X
+        Y: =lblAddLine2.Y + lblAddLine2.Height + 2
+        ZIndex: =7
+
+    lblAddLine2 As label:
+        Height: =lblAddBuildingName.Height
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =lblAddBuildingName.Size
+        Text: ="Address line 2"
+        Width: =lblAddBuildingName.Width
+        X: =lblAddBuildingName.X
+        Y: =txtAddLine1.Y + txtAddLine1.Height + 12
+        ZIndex: =8
+
+    txtAddLine1 As text:
+        BorderColor: =txtAddBuildingName.BorderColor
+        BorderThickness: =txtAddBuildingName.BorderThickness
+        Default: =""
+        Height: =txtAddBuildingName.Height
+        HoverBorderColor: =txtAddBuildingName.HoverBorderColor
+        Size: =txtAddBuildingName.Size
+        Width: =txtAddBuildingName.Width
+        X: =txtAddBuildingName.X
+        Y: =lblAddLine1.Y + lblAddLine1.Height + 2
+        ZIndex: =9
+
+    lblAddLine1 As label:
+        Height: =lblAddBuildingName.Height
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =lblAddBuildingName.Size
+        Text: ="Address line 1"
+        Width: =lblAddBuildingName.Width
+        X: =lblAddBuildingName.X
+        Y: =txtAddBuildingName.Height + txtAddBuildingName.Y + 12
+        ZIndex: =10
+
+    txtAddBuildingName As text:
+        BorderColor: =RGBA(0, 0, 0, 1)
+        BorderThickness: =3
+        Default: =""
+        Size: =16
+        Width: =Parent.Width - Self.X * 2
+        X: =20
+        Y: =lblAddBuildingName.Y + lblAddBuildingName.Height + 2
+        ZIndex: =11
+
+    lblAddBuildingName As label:
+        Height: =30
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =14
+        Text: ="Building Name"
+        Width: =Parent.Width - 2*Self.X
+        X: =20
+        Y: =lblAddTittle.Height + lblAddTittle.Y + 12
+        ZIndex: =12
+
+    lblAddTittle As label:
+        FontWeight: =FontWeight.Bold
+        PaddingLeft: =0
+        Size: =18
+        Text: ='Deprecated - AddressComp'.FieldsetQuestion
+        Width: =Parent.Width - 2*Self.X
+        X: =20
+        Y: =5
+        ZIndex: =13
+

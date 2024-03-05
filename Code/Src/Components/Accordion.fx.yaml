@@ -1,0 +1,222 @@
+Accordion As CanvasComponent:
+    AccordionHderDrpDwn: ="Show all Items"
+    AccordionProperties: |-
+        =Table(
+            {
+                Title: "SampleText 2",
+                SubTitle: "Subtitle Text that is long"
+            }, 
+                {
+                Title: "SampleText that is short",
+                SubTitle: "Subtitle Text that is very very long"
+            }, 
+                {
+                Title: "SampleText that ius long",
+                SubTitle: "Subtitle Text"
+            }
+        )
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =640
+    HoverColor: =Color.Wheat
+    Width: =640
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    Gallery2 As gallery.variableTemplateHeightGallery:
+        AccessibleLabel: ="List"
+        DelayItemLoading: =true
+        Height: =Parent.Height - (Container3.Y + Container3.Height + 5)
+        Items: =Accordion.AccordionProperties
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        TemplateSize: =Parent.Height/4
+        Width: =Parent.Width - 2*Self.X
+        X: =10
+        Y: =Container3.Y + Container3.Height + 5
+        ZIndex: =1
+
+        Container3_1 As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            Height: =150
+            Width: =Parent.Width - 2 * Self.X
+            X: =10
+            ZIndex: =1
+
+            Rectangle1_1 As rectangle:
+                Height: =2
+                Width: =Parent.Width - 2 * Self.X
+                X: =17
+                Y: =Parent.Height - (Self.Height + 2)
+                ZIndex: =1
+
+            Label10 As label:
+                AutoHeight: =true
+                Height: =50
+                PaddingTop: =0
+                Size: =14
+                Text: =ThisItem.SubTitle
+                Visible: =!IsBlank(LookUp(newCollect, selectedItem = ThisItem.Title  & "Selected")) || !IsBlank(LookUp(newCollect, selectedItem =  "All Selected"))
+                Width: =Parent.Width - 2 * Self.X
+                X: =10
+                Y: =Container6_1.Y + Container6_1.Height + 5
+                ZIndex: =2
+
+            Container6_1 As groupContainer.manualLayoutContainer:
+                DropShadow: =DropShadow.None
+                Fill: =Color.Transparent
+                Height: =HideButton.Height + 3
+                Width: =HideButton.Width + 5
+                X: =10
+                Y: =Label9.Y + Label9.Height
+                ZIndex: =3
+
+                HideButton As button:
+                    Align: =Align.Left
+                    Color: =RGBA(0, 0, 0, 1)
+                    Fill: =RGBA(0, 0, 0, 0)
+                    Height: =BtnShowAll.Height - 2
+                    HoverFill: =Accordion.HoverColor
+                    OnSelect: =Remove(newCollect, LookUp(newCollect, selectedItem = ThisItem.Title & "Selected"), LookUp(newCollect, selectedItem = "All Selected")) //Set(ItemHidden, ThisItem.Title & "hide"); 
+                    PaddingLeft: =HideIcon.Width + 5
+                    Size: =16
+                    Text: ="Hide"
+                    Visible: =!IsBlank(LookUp(newCollect, selectedItem = ThisItem.Title  & "Selected" ||  selectedItem =  "All Selected")) 
+                    Width: =280
+                    ZIndex: =1
+
+                HideIcon As icon.ChevronDown:
+                    AutoDisableOnSelect: =false
+                    DisabledBorderColor: =RGBA(202, 202, 202, 1)
+                    Height: =IcoShowAll.Height - 2
+                    HoverFill: =Accordion.HoverColor
+                    Icon: =Icon.ChevronUp
+                    OnSelect: =
+                    Visible: =!IsBlank(LookUp(newCollect,selectedItem = ThisItem.Title  & "Selected" ||  selectedItem =  "All Selected"))
+                    Width: =IcoShowAll.Width - 2
+                    X: =HideButton.X
+                    Y: =HideButton.Height/2 - Self.Height/2
+                    ZIndex: =2
+
+                ShowButton As button:
+                    Align: =Align.Left
+                    Color: =RGBA(0, 0, 0, 1)
+                    Fill: =RGBA(0, 0, 0, 0)
+                    Height: =BtnShowAll.Height - 2
+                    HoverFill: =Accordion.HoverColor
+                    OnSelect: |-
+                        =Collect(newCollect, {selectedItem: Text(ThisItem.Title) & "Selected"})//Set(ItemSelected, ThisItem.Title & "Selected"); 
+                    PaddingLeft: =ShowIcon.Width + 5
+                    Size: =16
+                    Text: ="Show"
+                    Visible: =IsBlank(LookUp(newCollect, selectedItem = ThisItem.Title  & "Selected" ||  selectedItem =  "All Selected")) 
+                    Width: =280
+                    X: =5
+                    ZIndex: =3
+
+                ShowIcon As icon.ChevronDown:
+                    AutoDisableOnSelect: =false
+                    DisabledBorderColor: =RGBA(202, 202, 202, 1)
+                    Height: =IcoShowAll.Height - 2
+                    HoverFill: =Accordion.HoverColor
+                    Icon: =Icon.ChevronDown
+                    OnSelect: =
+                    Visible: =IsBlank(LookUp(newCollect, selectedItem = ThisItem.Title  & "Selected"||  selectedItem =  "All Selected")) 
+                    Width: =IcoShowAll.Width - 2
+                    X: =ShowButton.X
+                    Y: =ShowButton.Height/2 - Self.Height/2
+                    ZIndex: =4
+
+            Label9 As label:
+                FontWeight: =FontWeight.Bold
+                Size: =16
+                Text: =ThisItem.Title
+                Width: =560
+                X: =10
+                ZIndex: =4
+
+    Container3 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.None
+        Height: =If(Parent.Height < 600, 60, Parent.Height/10)
+        Width: =Parent.Width - 2 * Self.X
+        X: =10
+        Y: =10
+        ZIndex: =2
+
+        Rectangle1 As rectangle:
+            Height: =2
+            Width: =Parent.Width - 2 * Self.X
+            X: =17
+            Y: =Parent.Height - (Self.Height + 3) 
+            ZIndex: =1
+
+        Container6 As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            Fill: =Color.Transparent
+            Height: =Parent.Height/ 1.5  //BtnHideAll.Height + 2
+            Width: =BtnHideAll.Width + 5
+            X: =10
+            ZIndex: =4
+
+            BtnHideAll As button:
+                Align: =Align.Left
+                Color: =RGBA(0, 0, 0, 1)
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =BtnShowAll.Height
+                HoverFill: =Accordion.HoverColor
+                OnSelect: |
+                    =Clear(newCollect);
+                PaddingLeft: =Icon3.Width + 5
+                Size: =BtnShowAll.Size
+                Text: ="Hide all items"
+                Visible: =!IsBlank(LookUp(newCollect, selectedItem =  "All Selected")) || CountRows(newCollect) = CountRows(Gallery2.AllItems)
+                Width: =280
+                Y: =BtnShowAll.Y
+                ZIndex: =1
+
+            Icon3 As icon.ChevronDown:
+                AccessibleLabel: ="Down"
+                AutoDisableOnSelect: =false
+                DisabledBorderColor: =RGBA(202, 202, 202, 1)
+                Height: =IcoShowAll.Height
+                HoverFill: =Accordion.HoverColor
+                Icon: =Icon.ChevronDown
+                OnSelect: =Set(ShowAll, false)
+                Visible: =!IsBlank(LookUp(newCollect, selectedItem =  "All Selected"))
+                Width: =IcoShowAll.Width
+                X: =IcoShowAll.X
+                Y: =IcoShowAll.Y
+                ZIndex: =2
+
+            BtnShowAll As button:
+                Align: =Align.Left
+                Color: =RGBA(0, 0, 0, 1)
+                Fill: =RGBA(0, 0, 0, 0)
+                HoverFill: =Accordion.HoverColor
+                OnSelect: |-
+                    =ClearCollect(newCollect, {selectedItem: "All Selected"})
+                PaddingLeft: =IcoShowAll.Width + 5
+                Size: =18
+                Text: =Accordion.AccordionHderDrpDwn
+                Visible: =!BtnHideAll.Visible //IsBlank(LookUp(newCollect, selectedItem =  "All Selected"))
+                Width: =280
+                X: =5
+                Y: =5
+                ZIndex: =3
+
+            IcoShowAll As icon.ChevronDown:
+                AccessibleLabel: ="Down"
+                AutoDisableOnSelect: =false
+                DisabledBorderColor: =RGBA(202, 202, 202, 1)
+                Height: =20
+                HoverFill: =Accordion.HoverColor
+                Icon: =Icon.ChevronDown
+                OnSelect: |-
+                    =
+                    ClearCollect(newCollect, {selectedItem: "All Selected"})
+                Visible: =IsBlank(LookUp(newCollect, selectedItem =  "All Selected"))
+                Width: =25
+                X: =BtnShowAll.X
+                Y: =BtnShowAll.Height/2 - Self.Height/4
+                ZIndex: =4
+

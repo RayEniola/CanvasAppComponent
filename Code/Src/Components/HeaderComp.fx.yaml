@@ -1,0 +1,161 @@
+HeaderComp As CanvasComponent:
+    CouncilLogo: =SampleImage
+    CouncilName: ="Text"
+    Fill: =RGBA(0, 0, 0, 0)
+    HeaderBgColor: =Color.DodgerBlue
+    HeaderMenuExpand: =menuExpand
+    Height: =150
+    IsMobile: =false
+    menuClickCol: =Color.White
+    menuFillCol: =Color.Yellow
+    SearchClickCol: =RGBA(0, 0, 0, 1)
+    SearchFillCol: =RGBA(0, 0, 0, 1)
+    SearchMenuExpand: =searchExpand
+    VersionPrint: ="Text"
+    Width: =900
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    Container2 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.None
+        Fill: =HeaderComp.HeaderBgColor
+        Height: =Parent.Height 
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Width: =Parent.Width
+        ZIndex: =4
+
+        Container4 As groupContainer.horizontalAutoLayoutContainer:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height / 2
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+            LayoutMode: =LayoutMode.Auto
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width/3
+            X: =If(HeaderComp.IsMobile, Parent.Width - Self.Width - Container5.Width/2, Parent.Width - Self.Width - Container5.Width)
+            Y: =If(searchExpand, Parent.Height-Self.Height, If(menuExpand,Parent.Height-Self.Height, 33 ))
+            ZIndex: =9
+
+            Container5 As groupContainer.manualLayoutContainer:
+                AlignInContainer: =AlignInContainer.Start
+                DropShadow: =DropShadow.None
+                Fill: =If(!searchExpand, HeaderComp.SearchFillCol, HeaderComp.SearchClickCol)
+                FillPortions: =0
+                Height: =Parent.Height
+                LayoutMinHeight: =112
+                LayoutMinWidth: =250
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Width: =Parent.Width / 2
+                ZIndex: =2
+
+                Button1 As button:
+                    Align: =If(HeaderComp.IsMobile,  Align.Center, Align.Left)
+                    BorderStyle: =BorderStyle.None
+                    Color: =If(!searchExpand,RGBA(241, 244, 249, 1), Color.Black)
+                    Fill: =If(!searchExpand, HeaderComp.SearchFillCol, HeaderComp.SearchClickCol)
+                    Height: =Parent.Height
+                    HoverColor: =If(!searchExpand,RGBA(241, 244, 249, 1), Color.Black)
+                    HoverFill: =If(!searchExpand, HeaderComp.SearchFillCol, HeaderComp.SearchClickCol)
+                    OnSelect: |-
+                        =If(!searchExpand, Set(searchExpand, true), Set(searchExpand, false)); 
+                        If(menuExpand, Set(menuExpand, false))
+                    Size: =If(HeaderComp.IsMobile, 12, 16)
+                    Text: =If(!searchExpand, "Search", "Close")
+                    Width: =If(HeaderComp.IsMobile, Parent.Width, Parent.Width/1.5)
+                    X: =If(HeaderComp.IsMobile, 0, 5)
+                    ZIndex: =1
+
+                Icon1 As icon.Search:
+                    AccessibleLabel: ="Search"
+                    Color: =If(!searchExpand,RGBA(241, 244, 249, 1), Color.Black)
+                    Height: =40
+                    Icon: =If(!searchExpand, Icon.Search, Icon.Cancel)
+                    OnSelect: |-
+                        =If(!searchExpand, Set(searchExpand, true), Set(searchExpand, false)); 
+                        If(menuExpand, Set(menuExpand, false))
+                    TabIndex: =1
+                    Visible: =!HeaderComp.IsMobile
+                    Width: =40
+                    X: =Parent.Width - Self.Width -10
+                    Y: =Parent.Height/2 - Self.Height/2
+                    ZIndex: =2
+
+            Container5_1 As groupContainer.manualLayoutContainer:
+                AlignInContainer: =AlignInContainer.Start
+                DropShadow: =DropShadow.None
+                Fill: =If(!menuExpand, HeaderComp.menuFillCol, HeaderComp.menuClickCol)
+                FillPortions: =0
+                Height: =Parent.Height
+                LayoutMinHeight: =112
+                LayoutMinWidth: =250
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Width: =Parent.Width / 2.1
+                ZIndex: =3
+
+                Label2 As label:
+                    Color: =If(!menuExpand,  Color.Black, RGBA(255, 191, 0, 1))
+                    FontWeight: =FontWeight.Semibold
+                    Height: =50
+                    Size: =If(HeaderComp.IsMobile, 12, 16)
+                    Text: =If(!menuExpand, "Menu", "Close")
+                    Visible: =false
+                    Width: =Parent.Width / 1.5
+                    X: =If(HeaderComp.IsMobile, 10, 5)
+                    Y: =Parent.Height/2 - Self.Height/2
+                    ZIndex: =1
+
+                Button4 As button:
+                    Align: =If(HeaderComp.IsMobile,  Align.Center, Align.Left)
+                    BorderStyle: =BorderStyle.None
+                    Color: =If(!menuExpand,  Color.Black, RGBA(255, 191, 0, 1))
+                    Fill: =If(!menuExpand, HeaderComp.menuFillCol, HeaderComp.menuClickCol)
+                    Height: =70
+                    HoverColor: =If(!menuExpand,  Color.Black, RGBA(255, 191, 0, 1))
+                    HoverFill: =If(!menuExpand, HeaderComp.menuFillCol, HeaderComp.menuClickCol)
+                    OnSelect: |-
+                        =If(!menuExpand, Set(menuExpand, true), Set(menuExpand, false)); 
+                        If(searchExpand, Set(searchExpand, false))
+                    Size: =If(HeaderComp.IsMobile, 12, 16)
+                    Text: =If(!menuExpand, "Menu", "Close")
+                    Width: =If(HeaderComp.IsMobile, Parent.Width, Parent.Width/1.5)
+                    X: =If(HeaderComp.IsMobile, 0, 5)
+                    Y: =Parent.Height/2 - Self.Height/2
+                    ZIndex: =2
+
+                Icon1_1 As icon.Search:
+                    AccessibleLabel: ="Menu"
+                    Color: =If(!menuExpand,  Color.Black, RGBA(255, 191, 0, 1))
+                    Height: =40
+                    Icon: =If(!menuExpand, Icon.Hamburger, Icon.Cancel)
+                    OnSelect: |-
+                        =If(!menuExpand, Set(menuExpand, true), Set(menuExpand, false)); 
+                        If(searchExpand, Set(searchExpand, false))
+                    Visible: =!HeaderComp.IsMobile
+                    Width: =40
+                    X: =Parent.Width - Self.Width -10
+                    Y: =Parent.Height/2 - Self.Height/2
+                    ZIndex: =3
+
+        Image1 As image:
+            AccessibleLabel: ="Logo"
+            Height: =Parent.Height / 1.2
+            Image: =HeaderComp.CouncilLogo
+            TabIndex: =0
+            Width: =If(HeaderComp.IsMobile, 150, Parent.Width/7)
+            X: =Parent.X + 50
+            Y: =Parent.Height/2 - Self.Height/2
+            ZIndex: =10
+

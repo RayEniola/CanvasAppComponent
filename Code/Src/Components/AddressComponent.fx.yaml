@@ -1,0 +1,676 @@
+AddressComponent As CanvasComponent:
+    AddBgCol: =Color.White
+    Address: =AddressCollection
+    AddressFont: =Font.'Patrick Hand'
+    AddressInput: |-
+        ={BuildingName: "", AddressLine1: "", AddressLine2: "", Town: "", County: "" , PostCode: "", Country : "Ukraine", CountryList: Table(
+            { CountryName: "Select Address" },
+            {  CountryName: "Austria"},
+            {  CountryName: "Ukraine"}
+        )}
+    AddressTitle: ="What is your Address"
+    ComponentVersion: ="Address Component V1, Marra 2024"
+    Fill: =AddressComponent.AddBgCol
+    Height: =640
+    IncludeBuildingName: =true
+    InputType: |-
+        =1 
+        
+        /*
+        1 : Create Records, this is the default value
+        2 : Update records
+        3: Read Records 
+        4 : Delete record
+        
+        
+        This is experimental at the moment. 
+        */
+    IsCountryDropDown: =true
+    IsInternational: =true
+    PCIsValid: =ValidPC && Len(txtPostCode_1.Text) > 1
+    ResetEntries: =true
+    TitleFont: =Font.Georgia
+    ValidatePostcode: =true
+    Width: =640
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    Container12_1 As groupContainer.horizontalAutoLayoutContainer:
+        DropShadow: =DropShadow.None
+        Height: =Parent.Height
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        LayoutOverflowY: =LayoutOverflow.Scroll
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Width: =Parent.Width
+        ZIndex: =15
+
+        contTitle As groupContainer.manualLayoutContainer:
+            AlignInContainer: =AlignInContainer.Start
+            DropShadow: =DropShadow.None
+            FillPortions: =0
+            Height: =If(Parent.Height/16 < 40, 48, Parent.Height/16 + 8)
+            LayoutMinHeight: =112
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+            Y: =5
+            ZIndex: =1
+
+            lblAddTittle_1 As label:
+                Font: =AddressComponent.TitleFont
+                FontWeight: =FontWeight.Bold
+                Height: =Parent.Height
+                PaddingLeft: =0
+                Size: =If(Parent.Height/16 < 40, 20, Parent.Height/16 - 18)
+                Text: =AddressComponent.AddressTitle
+                Width: =Parent.Width - 2*Self.X
+                X: =20
+                ZIndex: =13
+
+        contBuildingName As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            FillPortions: =0
+            Height: =If(Parent.Height/16 < 40,85, Parent.Height/8 + 5)
+            LayoutMinHeight: =112
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =AddressComponent.IncludeBuildingName
+            Y: =40
+            ZIndex: =2
+
+            txtAddBuildingName_1 As text:
+                BorderColor: =RGBA(0, 0, 0, 1)
+                BorderThickness: =3
+                Default: = AddressComponent.AddressInput.BuildingName
+                DisabledBorderColor: =RGBA(51, 51, 51, 1)
+                DisabledColor: =RGBA(0, 0, 0, 1)
+                DisabledFill: =RGBA(220,220,220,1)
+                DisplayMode: =If(AddressComponent.InputType <> 3, DisplayMode.Edit, DisplayMode.Disabled) 
+                Height: =If(Parent.Height/16 < 40, 40, Parent.Height/16 )
+                HoverBorderColor: =RGBA(0, 0, 0, 1)
+                HoverFill: =RGBA(255, 255, 255, 1)
+                OnChange: |-
+                    =Set(addressBuildingName, Self.Text);
+                    If(AddressComponent.IsCountryDropDown,
+                    ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : First(addressCountryList).CountryName
+                       
+                        }
+                    ),ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : addressCountry
+                        }
+                    ))
+                Reset: =AddressComponent.ResetEntries
+                Size: =If(Parent.Height/16 < 40, 16, Parent.Height/16 - 24)//16
+                Width: =Parent.Width - Self.X * 2
+                X: =20
+                Y: =lblAddBuildingName_1.Y + lblAddBuildingName_1.Height + 2
+                ZIndex: =2
+
+            lblAddBuildingName_1 As label:
+                Font: =AddressComponent.AddressFont
+                Height: =If(Parent.Height = 72, 30, (Parent.Height/2) - 10)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =If(Parent.Height/16 < 40, 16, Parent.Height/16 - 24)
+                Text: ="Building Name"
+                Width: =Parent.Width - 2*Self.X
+                X: =20
+                Y: =0//lblAddTittle_1.Height + lblAddTittle_1.Y + 12
+                ZIndex: =3
+
+        contAddLine1 As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            FillPortions: =0
+            Height: =contBuildingName.Height
+            LayoutMinHeight: =112
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            ZIndex: =3
+
+            txtAddLine1_1 As text:
+                BorderColor: =txtAddBuildingName_1.BorderColor
+                BorderThickness: =txtAddBuildingName_1.BorderThickness
+                Default: =AddressComponent.AddressInput.AddressLine1
+                DisabledBorderColor: =txtAddBuildingName_1.DisabledBorderColor
+                DisabledColor: =txtAddBuildingName_1.DisabledBorderColor
+                DisabledFill: =txtAddBuildingName_1.DisabledFill
+                DisplayMode: =If(AddressComponent.InputType <> 3, DisplayMode.Edit, DisplayMode.Disabled) 
+                Height: =txtAddBuildingName_1.Height
+                HoverBorderColor: =txtAddBuildingName_1.HoverBorderColor
+                HoverFill: =txtAddBuildingName_1.HoverFill
+                OnChange: |-
+                    =Set(addressLine1, Self.Text);
+                    If(AddressComponent.IsCountryDropDown,
+                    ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : First(addressCountryList).CountryName
+                       
+                        }
+                    ),ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : addressCountry
+                        }
+                    ))
+                Reset: =AddressComponent.ResetEntries
+                Size: =txtAddBuildingName_1.Size
+                Width: =txtAddBuildingName_1.Width
+                X: =txtAddBuildingName_1.X
+                Y: =lblAddLine1_1.Y + lblAddLine1_1.Height + 2
+                ZIndex: =1
+
+            lblAddLine1_1 As label:
+                Font: =AddressComponent.AddressFont
+                Height: =lblAddBuildingName_1.Height
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =lblAddBuildingName_1.Size
+                Text: ="Address line 1"
+                Width: =lblAddBuildingName_1.Width
+                X: =lblAddBuildingName_1.X
+                ZIndex: =2
+
+        contAddLine2 As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            FillPortions: =0
+            Height: =contBuildingName.Height
+            LayoutMinHeight: =112
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            ZIndex: =4
+
+            txtAddLine2_1 As text:
+                BorderColor: =txtAddBuildingName_1.BorderColor
+                BorderThickness: =txtAddBuildingName_1.BorderThickness
+                Default: = AddressComponent.AddressInput.AddressLine2
+                DisabledBorderColor: =txtAddBuildingName_1.DisabledBorderColor
+                DisabledColor: =txtAddBuildingName_1.DisabledColor
+                DisabledFill: =txtAddBuildingName_1.DisabledFill
+                DisplayMode: =If(AddressComponent.InputType <> 3, DisplayMode.Edit, DisplayMode.Disabled) 
+                Height: =txtAddBuildingName_1.Height
+                HoverBorderColor: =txtAddBuildingName_1.HoverBorderColor
+                HoverFill: =txtAddBuildingName_1.HoverFill
+                OnChange: |-
+                    =Set(addressLine2, Self.Text);
+                    If(AddressComponent.IsCountryDropDown,
+                    ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : First(addressCountryList).CountryName
+                       
+                        }
+                    ),ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : addressCountry
+                        }
+                    ))
+                Size: =txtAddBuildingName_1.Size
+                Width: =txtAddBuildingName_1.Width
+                X: =txtAddBuildingName_1.X
+                Y: =lblAddLine2_1.Y + lblAddLine2_1.Height + 2
+                ZIndex: =1
+
+            lblAddLine2_1 As label:
+                Font: =AddressComponent.AddressFont
+                Height: =lblAddBuildingName_1.Height
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =lblAddBuildingName_1.Size
+                Text: ="Address line 2"
+                Width: =lblAddBuildingName_1.Width
+                X: =lblAddBuildingName_1.X
+                ZIndex: =2
+
+        contTown As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            FillPortions: =0
+            Height: =contBuildingName.Height
+            LayoutMinHeight: =112
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            ZIndex: =5
+
+            txtAddTown_1 As text:
+                BorderColor: =txtAddBuildingName_1.BorderColor
+                BorderThickness: =txtAddBuildingName_1.BorderThickness
+                Default: = AddressComponent.AddressInput.Town
+                DisabledBorderColor: =txtAddBuildingName_1.DisabledBorderColor
+                DisabledColor: =txtAddBuildingName_1.DisabledColor
+                DisabledFill: =txtAddBuildingName_1.DisabledFill
+                DisplayMode: =If(AddressComponent.InputType <> 3, DisplayMode.Edit, DisplayMode.Disabled) 
+                Height: =txtAddBuildingName_1.Height
+                HoverBorderColor: =txtAddBuildingName_1.HoverBorderColor
+                HoverFill: =txtAddBuildingName_1.HoverFill
+                OnChange: |-
+                    =Set(addressTown, Self.Text);
+                    If(AddressComponent.IsCountryDropDown,
+                    ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : First(addressCountryList).CountryName
+                       
+                        }
+                    ),ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : addressCountry
+                        }
+                    ))
+                Reset: =AddressComponent.ResetEntries
+                Size: =txtAddBuildingName_1.Size
+                Width: =txtAddBuildingName_1.Width
+                X: =txtAddBuildingName_1.X
+                Y: =lblAddTown_1.Y + lblAddTown_1.Height + 5
+                ZIndex: =1
+
+            lblAddTown_1 As label:
+                Font: =AddressComponent.AddressFont
+                Height: =lblAddBuildingName_1.Height
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =lblAddBuildingName_1.Size
+                Text: ="Town or City "
+                Width: =lblAddBuildingName_1.Width
+                X: =lblAddBuildingName_1.X
+                ZIndex: =2
+
+        contCounty As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            FillPortions: =0
+            Height: =contBuildingName.Height
+            LayoutMinHeight: =112
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            X: =40
+            Y: =40
+            ZIndex: =6
+
+            txtCounty_1 As text:
+                BorderColor: =txtAddBuildingName_1.BorderColor
+                BorderThickness: =txtAddBuildingName_1.BorderThickness
+                Default: = AddressComponent.AddressInput.County
+                DisabledBorderColor: =txtAddBuildingName_1.DisabledBorderColor
+                DisabledColor: =txtAddBuildingName_1.DisabledColor
+                DisabledFill: =txtAddBuildingName_1.DisabledFill
+                DisplayMode: =If(AddressComponent.InputType <> 3, DisplayMode.Edit, DisplayMode.Disabled) 
+                Height: =txtAddBuildingName_1.Height
+                HoverBorderColor: =txtAddBuildingName_1.HoverBorderColor
+                HoverFill: =txtAddBuildingName_1.HoverFill
+                OnChange: |-
+                    =Set(addressCounty, Self.Text);
+                    If(AddressComponent.IsCountryDropDown,
+                    ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : First(addressCountryList).CountryName
+                       
+                        }
+                    ),ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : addressCountry
+                        }
+                    ))
+                Reset: =AddressComponent.ResetEntries
+                Size: =txtAddBuildingName_1.Size
+                Width: =txtAddBuildingName_1.Width
+                X: =txtAddBuildingName_1.X
+                Y: =lblCounty_1.Y + lblCounty_1.Height + 5
+                ZIndex: =1
+
+            lblCounty_1 As label:
+                Font: =AddressComponent.AddressFont
+                Height: =lblAddBuildingName_1.Height
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =lblAddBuildingName_1.Size
+                Text: ="County"
+                Width: =lblAddBuildingName_1.Width
+                X: =lblAddBuildingName_1.X
+                ZIndex: =2
+
+        contPostCode As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            FillPortions: =0
+            Height: =contBuildingName.Height
+            LayoutMinHeight: =112
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            X: =40
+            Y: =40
+            ZIndex: =7
+
+            txtPostCode_1 As text:
+                BorderColor: =If(ValidPC = false,Color.Red,  txtAddBuildingName_1.BorderColor)
+                BorderThickness: =txtAddBuildingName_1.BorderThickness
+                Default: =AddressComponent.AddressInput.PostCode
+                DisabledBorderColor: =txtAddBuildingName_1.DisabledBorderColor
+                DisabledColor: =txtAddBuildingName_1.DisabledColor
+                DisabledFill: =txtAddBuildingName_1.DisabledFill
+                DisplayMode: =If(AddressComponent.InputType <> 3, DisplayMode.Edit, DisplayMode.Disabled) 
+                Font: =Font.'Segoe UI'
+                Height: =txtAddBuildingName_1.Height
+                HoverBorderColor: =txtAddBuildingName_1.HoverBorderColor
+                HoverFill: =txtAddBuildingName_1.HoverFill
+                OnChange: |-
+                    =If(
+                        !IsMatch(
+                            Self.Text, 
+                            "^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$"
+                        ) || Len(Self.Text) < 1, 
+                        Set(ValidPC,
+                        false), 
+                        Set(ValidPC, true)  && Set(addressPostCode, Self.Text)
+                    );
+                    If(ValidPC,
+                    If(AddressComponent.IsCountryDropDown,
+                    ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : First(addressCountryList).CountryName
+                       
+                        }
+                    ),ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : addressCountry
+                        }
+                    )));
+                OnSelect: |-
+                    =If(
+                        !IsMatch(
+                            Self.Text, 
+                            "^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$"
+                        ) || Len(Self.Text) < 1, 
+                        Set(ValidPC,
+                        false), 
+                        Set(ValidPC, true)
+                    );
+                    
+                    // ^[A-Z]{1,2}[0-9R][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}$
+                Reset: =AddressComponent.ResetEntries
+                Size: =txtAddBuildingName_1.Size
+                Width: =txtAddBuildingName_1.Width / 3
+                X: =txtAddBuildingName_1.X
+                Y: =lblPostCode_1.Y + lblPostCode_1.Height + 5
+                ZIndex: =1
+
+            lblPostCode_1 As label:
+                Font: =AddressComponent.AddressFont
+                Height: =lblAddBuildingName_1.Height
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =lblAddBuildingName_1.Size
+                Text: |
+                    =If(AddressComponent.IsInternational, "Postcode / Zipcode", "Postcode")
+                Width: =txtAddBuildingName_1.Width
+                X: =txtAddBuildingName_1.X
+                ZIndex: =2
+
+            Label15 As label:
+                Color: =RGBA(255, 0, 0, 1)
+                Fill: =RGBA(255, 255, 255, 1)
+                Height: =20
+                Size: =10
+                Text: |
+                    =If(
+                        IsMatch(
+                            txtPostCode_1.Text, 
+                            "^[A-Z]{1,2}[0-9R][0-9A-Z]? [0-9][ABD-HJLNP-UW-Z]{2}$"
+                        ), 
+                        "Valid postcode", 
+                        "Invalid postcode"
+                    )
+                Visible: =(ValidPC = false) && AddressComponent.ValidatePostcode
+                Width: =205
+                X: =362
+                Y: =45
+                ZIndex: =3
+
+        contCountry As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            FillPortions: =0
+            Height: =contBuildingName.Height
+            LayoutMinHeight: =112
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =AddressComponent.IsInternational
+            X: =40
+            Y: =40
+            ZIndex: =8
+
+            Dropdown1 As dropdown:
+                AccessibleLabel: ="Country List"
+                BorderColor: =RGBA(0, 0, 0, 1)
+                BorderThickness: =3
+                ChevronBackground: =RGBA(255, 255, 255, 1)
+                ChevronFill: =RGBA(0, 0, 0, 1)
+                ChevronHoverBackground: =Color.Transparent
+                Default: =AddressComponent.AddressInput.Country
+                DisabledBorderColor: =txtAddBuildingName_1.DisabledBorderColor
+                DisabledColor: =txtAddBuildingName_1.DisabledColor
+                DisabledFill: =txtAddBuildingName_1.DisabledFill
+                DisplayMode: =If(AddressComponent.InputType <> 3, DisplayMode.Edit, DisplayMode.Disabled) 
+                Height: =txtCountryName.Height
+                HoverFill: =RGBA(219, 219, 219, 1)
+                Items: =AddressComponent.AddressInput.CountryList //AddressComponent.Countries
+                OnChange: |-
+                    =ClearCollect (addressCountryList, Self.Selected);
+                    
+                    If(AddressComponent.IsCountryDropDown,
+                    ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : First(addressCountryList).CountryName
+                       
+                        }
+                    ),ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : addressCountry
+                        }
+                    )) ;
+                PressedColor: =RGBA(0, 0, 0, 1)
+                PressedFill: =RGBA(255, 255, 255, 1)
+                Reset: =AddressComponent.ResetEntries
+                SelectionColor: =RGBA(0, 0, 0, 1)
+                SelectionFill: =RGBA(255, 255, 255, 1)
+                Size: =lblAddBuildingName_1.Size
+                Visible: =AddressComponent.IsCountryDropDown
+                Width: =txtCountryName.Width
+                X: =txtCountryName.X
+                Y: =txtCountryName.Y
+                ZIndex: =1
+
+            txtCountryName As text:
+                BorderColor: =txtAddBuildingName_1.BorderColor
+                BorderThickness: =txtAddBuildingName_1.BorderThickness
+                Default: =AddressComponent.AddressInput.Country
+                DisabledBorderColor: =txtAddBuildingName_1.DisabledBorderColor
+                DisabledColor: =txtAddBuildingName_1.DisabledColor
+                DisabledFill: =txtAddBuildingName_1.DisabledFill
+                DisplayMode: =If(AddressComponent.InputType <> 3, DisplayMode.Edit, DisplayMode.Disabled) 
+                Height: =txtAddBuildingName_1.Height
+                HoverBorderColor: =txtAddBuildingName_1.HoverBorderColor
+                HoverFill: =txtAddBuildingName_1.HoverFill
+                OnChange: |
+                    =Set(addressCountry, Self.Text);
+                    
+                    If(AddressComponent.IsCountryDropDown,
+                    ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : First(addressCountryList).CountryName
+                       
+                        }
+                    ),ClearCollect(
+                        AddressCollection, // 
+                        {
+                            BuildingName: addressBuildingName,
+                            addLine1: addressLine1,
+                            addLine2: addressLine2,
+                            Town : addressTown,
+                            County: addressCounty,
+                            PostCode: addressPostCode,
+                            Country : addressCountry
+                        }
+                    ))
+                Reset: =AddressComponent.ResetEntries
+                Size: =txtAddBuildingName_1.Size
+                Visible: =!AddressComponent.IsCountryDropDown
+                Width: =txtAddBuildingName_1.Width
+                X: =txtAddBuildingName_1.X
+                Y: =lblCountryName.Y + lblCountryName.Height + 5
+                ZIndex: =2
+
+            lblCountryName As label:
+                Font: =AddressComponent.AddressFont
+                Height: =lblAddBuildingName_1.Height
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =lblAddBuildingName_1.Size
+                Text: ="Country"
+                Width: =txtAddBuildingName_1.Width
+                X: =txtAddBuildingName_1.X
+                ZIndex: =3
+

@@ -1,0 +1,98 @@
+SearchBoxComp As CanvasComponent:
+    AutoResetSearch: =false
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =200
+    HideSearchComponent: =hideComponent
+    IsMobile: =true
+    PlaceCloseButtonUp: =true
+    SearchBoxBgColor: =Color.WhiteSmoke
+    SearchButtonIcon: =Icon.NextArrow
+    SearchCloseBtnText: ="Close"
+    SearchIconCol: =RGBA(0, 0, 0, 1)
+    SearchtextOut: =SearchText
+    SearchTitleCol: =RGBA(0, 0, 0, 1)
+    SearchTitleText: ="Text"
+    ShowSearchComp: =true
+    ShowSearchTitle: =true
+    Width: =900
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    SearchBotCont As groupContainer.manualLayoutContainer:
+        Fill: =SearchBoxComp.SearchBoxBgColor
+        Height: =Parent.Height 
+        Visible: =SearchBoxComp.ShowSearchComp
+        Width: =Parent.Width
+        X: =Parent.X
+        ZIndex: =1
+
+        TextInput1 As text:
+            AccessibleLabel: ="Search Text Box"
+            Default: =""
+            Height: =70
+            HintText: ="How can we help?"
+            PaddingLeft: =50
+            Size: =16
+            Width: =Parent.Width  - 2 * Self.X
+            X: =Label1.X
+            Y: =If(SearchBoxComp.PlaceCloseButtonUp,Label1.Y + Label1.Height + 10, Parent.Height/2 - Self.Height/2)
+            ZIndex: =1
+
+        Button2 As button:
+            Fill: =RGBA(255, 191, 0, 1)
+            Height: =Parent.Height/4
+            OnSelect: |-
+                =Set(SearchText, TextInput1.Text); 
+                If(SearchBoxComp.AutoResetSearch, Reset(TextInput1));
+            Size: =24
+            Text: =""
+            Width: =Parent.Width / 11.25
+            X: =TextInput1.Width + TextInput1.X -Self.Width *1.2
+            Y: =If(SearchBoxComp.PlaceCloseButtonUp,TextInput1.Y + TextInput1.Height /2 - Self.Height/2, Parent.Height/2 - Self.Height/2)
+            ZIndex: =2
+
+        Icon2 As icon.Search:
+            Height: =36
+            Icon: =Icon.Search
+            Width: =26
+            X: =TextInput1.X + Self.Width/2
+            Y: =TextInput1.Y + Self.Height/2
+            ZIndex: =4
+
+        Icon4 As icon.NextArrow:
+            AccessibleLabel: ="Search Icon"
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(255, 255, 255, 0.01)
+            Height: =53
+            Icon: =SearchBoxComp.SearchButtonIcon
+            OnSelect: |-
+                =Set(SearchText, TextInput1.Text); 
+                If(SearchBoxComp.AutoResetSearch, Reset(TextInput1));
+            Width: =39
+            X: =Button2.X + Button2.Width / 2 - Self.Width/2 //TextInput1.Width + TextInput1.X -Button2.Width
+            Y: =If(SearchBoxComp.PlaceCloseButtonUp,Button2.Y + Button2.Height /2 - Self.Height/2, Parent.Height/2 - Self.Height/2)
+            ZIndex: =5
+
+        Label1 As label:
+            Color: =SearchBoxComp.SearchTitleCol
+            Height: =If(Self.Visible, Parent.Height/4, 0)
+            Size: =Parent.Height/10
+            Text: =SearchBoxComp.SearchTitleText
+            Visible: =SearchBoxComp.ShowSearchTitle
+            Width: =Parent.Width - 2 * Self.X
+            X: =50
+            Y: =If(SearchBoxComp.PlaceCloseButtonUp,Button5.Height+ 5, Parent.Height / 22)
+            ZIndex: =6
+
+        Button5 As button:
+            Height: = If(!SearchBoxComp.IsMobile, Parent.Height / 4, 40)
+            OnSelect: |
+                =Set(hideComponent, !hideComponent);
+            Size: =If(!SearchBoxComp.IsMobile, 16, 12)
+            Text: =SearchBoxComp.SearchCloseBtnText
+            Width: =If(!SearchBoxComp.IsMobile,  Parent.Width / 10, 100)
+            X: =Parent.Width - (Self.Width + Label1.X)
+            Y: =If(SearchBoxComp.PlaceCloseButtonUp, 5, Parent.Height - Self.Height-10)
+            ZIndex: =7
+
