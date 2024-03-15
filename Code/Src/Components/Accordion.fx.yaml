@@ -3,7 +3,7 @@ Accordion As CanvasComponent:
     AccordionProperties: |-
         =Table(
             {
-                Title: "SampleText 2",
+                Title: "SampleText 4",
                 SubTitle: "Subtitle Text that is long"
             }, 
                 {
